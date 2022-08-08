@@ -1,16 +1,34 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
 import dotenv from 'dotenv'
+import Routes from './routes/index'
+import cors from 'cors'
 
+// custom components
+import { connectDb } from './configs/db.connect'
+import CorsMiddleWare from './middlewares/cors.middleware'
 dotenv.config()
 
 const app: Application = express()
 
 const port = process.env.PORT || 3100
 
-app.use(express.json())
+app.use(Routes)
+const main = () => {
+  app.use(
+    cors({
+      origin: '*',
+    })
+  )
 
-app.get('/', (_: Request, res: Response) => {
-  return res.send({ body: 'hello' })
-})
+  app.use(CorsMiddleWare)
 
-app.listen(port, () => console.log('app listen port' + port))
+  app.use(express.json())
+
+  app.use(Routes)
+
+  connectDb()
+
+  app.listen(port, () => console.log('app listen port' + port))
+}
+
+main()
