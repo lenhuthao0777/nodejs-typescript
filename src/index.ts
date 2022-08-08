@@ -12,7 +12,6 @@ const app: Application = express()
 
 const port = process.env.PORT || 3100
 
-app.use(Routes)
 const main = () => {
   app.use(
     cors({
