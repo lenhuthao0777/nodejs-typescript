@@ -9,8 +9,8 @@ const port = process.env.PORT || 3100
 
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  return res.json({ body: req.body })
+app.get('/', (_: Request, res: Response) => {
+  return res.send({ body: 'hello' })
 })
 
 app.listen(port, () => console.log('app listen port' + port))
