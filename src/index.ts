@@ -10,12 +10,20 @@ const app: Application = express()
 
 const port = process.env.PORT || 3100
 
-app.use(express.json())
+const main = () => {
+  app.use(
+    cors({
+      origin: '*',
+    })
+  )
 
-app.use(Routes)
+  app.use(CorsMiddleWare)
 
-app.use(cors({ origin: '*' }))
+  app.use(express.json())
 
-app.use(CorsMiddleWare)
+  app.use(Routes)
 
-app.listen(port, () => console.log('app listen port' + port))
+  app.listen(port, () => console.log('app listen port' + port))
+}
+
+main()
