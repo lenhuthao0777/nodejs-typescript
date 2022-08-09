@@ -10,7 +10,7 @@ export const connectDb = () => {
   try {
     mongoose
       .connect(
-        'mongodb+srv://shop-shoes:bs2zVGdRneIe9wHE@cluster0.i4rykqo.mongodb.net/?retryWrites=true&w=majority'
+        String(process.env.DATABASE_URL)
         // {
         //   useNewUrlParser: true,
         //   useFindAndModify: false,
