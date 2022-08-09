@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import userModel from '../models/user.model'
+import argon2 from 'argon2'
 
 export const GetAllUser = async (_: Request, res: Response) => {
   try {
@@ -14,11 +15,15 @@ export const GetAllUser = async (_: Request, res: Response) => {
 
 export const CreateUser = async (req: Request, res: Response) => {
   try {
-    const { user_name, email, password, role } = req.body
+    const { user_name, email, password, role, country_code, phone_number } =
+      req.body
+    const hash: string = await argon2.hash(password)
     const newUser = await new userModel({
       user_name,
       email,
-      password,
+      password: hash,
+      country_code,
+      phone_number,
       role,
     })
     const user = await newUser.save()
@@ -29,11 +34,13 @@ export const CreateUser = async (req: Request, res: Response) => {
 }
 export const GetUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.query
+    const { id } = req.params
     const user = await userModel.findById(id)
     return res.status(200).json({ data: user })
   } catch (error) {
-    return res.status(500).json({ message: 'get user failed!', code: error })
+    return res
+      .status(500)
+      .json({ message: 'get user failed!' + '  ' + error.message })
   }
 }
 
