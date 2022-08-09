@@ -1,14 +1,11 @@
 import { Request, Response } from 'express'
 import userModel from '../models/user.model'
 
-export const GetAllUser = (req: Request, res: Response) => {
+export const GetAllUser = async (_: Request, res: Response) => {
   try {
-    const { user_name, password } = req.body
+    const user = await userModel.find()
     return res.status(200).json({
-      data: {
-        user_name,
-        password,
-      },
+      data: user,
     })
   } catch (error) {
     return res.status(500).json({ error })
@@ -27,6 +24,27 @@ export const CreateUser = async (req: Request, res: Response) => {
     const user = await newUser.save()
     return res.status(200).json({ data: user })
   } catch (error) {
-    return console.log(error)
+    return res.status(500).json({ message: 'create user failure!' })
+  }
+}
+export const GetUser = async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.body
+    const user = await userModel.findById(_id)
+    return res.status(200).json({ data: user })
+  } catch (error) {
+    return res.status(500).json({ message: 'get user failure!' })
+  }
+}
+
+export const Test = (_: Request, res: Response) => {
+  try {
+    return res.send({
+      message: 'Hello world!',
+    })
+  } catch (erroe) {
+    return res.status(500).json({
+      message: 'error',
+    })
   }
 }
