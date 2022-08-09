@@ -8,7 +8,7 @@ export const GetAllUser = async (_: Request, res: Response) => {
       data: user,
     })
   } catch (error) {
-    return res.status(500).json({ error })
+    return res.status(500).json({ message: 'get user failed!' })
   }
 }
 
@@ -24,7 +24,7 @@ export const CreateUser = async (req: Request, res: Response) => {
     const user = await newUser.save()
     return res.status(200).json({ data: user })
   } catch (error) {
-    return res.status(500).json({ message: 'create user failure!' })
+    return res.status(500).json({ message: 'create user failed!' })
   }
 }
 export const GetUser = async (req: Request, res: Response) => {
@@ -33,7 +33,7 @@ export const GetUser = async (req: Request, res: Response) => {
     const user = await userModel.findById(_id)
     return res.status(200).json({ data: user })
   } catch (error) {
-    return res.status(500).json({ message: 'get user failure!' })
+    return res.status(500).json({ message: 'get user failed!' })
   }
 }
 
