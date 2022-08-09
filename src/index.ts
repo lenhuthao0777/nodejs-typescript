@@ -8,7 +8,6 @@ import morgan from 'morgan'
 // custom components
 import CorsMiddleWare from './middlewares/cors.middleware'
 import { connectDb } from './configs/db.connect'
-// import { AuthMiddleWare } from './middlewares/auth.middleware'
 
 dotenv.config()
 
@@ -33,11 +32,9 @@ const main = () => {
 
   app.use(Routes)
 
-  // app.use()
-
   connectDb()
 
-  app.listen(port, () => console.log('app listen port' + port))
+  app.listen(port, () => console.log('App listen port ' + port))
 }
 
 main()

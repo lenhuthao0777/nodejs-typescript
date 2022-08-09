@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { Response, Request, NextFunction } from 'express'
 import dotenv from 'dotenv'
 
@@ -10,14 +10,18 @@ export const AuthMiddleWare = (
   next: NextFunction
 ) => {
   const authorization = req.headers['authorization']
-  const token: string | undefined = authorization?.split(' ')[1]
-  !token && res.sendStatus(401)
 
-  jwt.verify(
-    token ? token : '',
-    String(process.env.ACCESS_TOKEN_SECRET_KEY),
-    (error, data) => {
-      console.log(error, data)
-    }
-  )
+  if (authorization) {
+    const token: string = authorization?.split(' ')[1]
+    jwt.verify(
+      token,
+      String(process.env.ACCESS_TOKEN_SECRET_KEY),
+      (error, _) => {
+        error && res.status(403).json({ message: 'Token is not valid!' })
+        next()
+      }
+    )
+  } else {
+    res.status(401).json({ message: 'You are not authenticated!' })
+  }
 }
