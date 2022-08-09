@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+
     country_code: {
       type: Number,
       default: null,

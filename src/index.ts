@@ -8,6 +8,7 @@ import morgan from 'morgan'
 // custom components
 import CorsMiddleWare from './middlewares/cors.middleware'
 import { connectDb } from './configs/db.connect'
+// import { AuthMiddleWare } from './middlewares/auth.middleware'
 
 dotenv.config()
 
@@ -31,6 +32,8 @@ const main = () => {
   app.use(morgan('dev'))
 
   app.use(Routes)
+
+  // app.use()
 
   connectDb()
 
