@@ -4,8 +4,8 @@ import Routes from './routes/index'
 import cors from 'cors'
 
 // custom components
-import { connectDb } from './configs/db.connect'
 import CorsMiddleWare from './middlewares/cors.middleware'
+import { connectDb } from './configs/db.connect'
 dotenv.config()
 
 const app: Application = express()
