@@ -1,18 +1,22 @@
+import { AuthMiddleWare } from '../middlewares/auth.middleware'
 import { Router } from 'express'
 import {
   GetAllUser,
-  CreateUser,
+  Register,
   GetUser,
   Test,
+  Login,
 } from '../controllers/user.controller'
 
 const router = Router()
 
-router.get('/getUser', GetAllUser)
+router.get('/user', AuthMiddleWare, GetAllUser)
 
-router.post('/create', CreateUser)
+router.post('/register', Register)
 
-router.get('/user/:id', GetUser)
+router.get('/user/:id', AuthMiddleWare, GetUser)
+
+router.post('/login', Login)
 
 router.get('/', Test)
 

@@ -1,7 +1,8 @@
+import { UserType } from './../@types/user.type'
 import mongoose from 'mongoose'
 
 // Declare the Schema of the Mongo model
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<UserType>(
   {
     user_name: {
       type: String,
@@ -24,8 +25,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+
     country_code: {
-      type: Number,
+      type: String,
       default: null,
     },
 
@@ -35,7 +37,19 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-    role: {
+    feed_back_id: {
+      type: String,
+      unique: true,
+      default: '',
+    },
+
+    product_id: {
+      type: String,
+      unique: true,
+      default: '',
+    },
+
+    role_id: {
       type: Number,
       required: true,
     },
@@ -44,4 +58,4 @@ const userSchema = new mongoose.Schema(
 )
 
 //Export the model
-export default mongoose.model('User', userSchema, 'user')
+export default mongoose.model<UserType>('User', userSchema, 'user')

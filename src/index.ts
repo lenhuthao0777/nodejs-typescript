@@ -34,7 +34,7 @@ const main = () => {
 
   connectDb()
 
-  app.listen(port, () => console.log('app listen port' + port))
+  app.listen(port, () => console.log('App listen port ' + port))
 }
 
 main()
