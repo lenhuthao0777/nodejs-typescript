@@ -4,8 +4,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-export const AuthMiddleWare = (
-  req: Request,
+export const VerifyAccessToken = (
+  req: Request | any,
   res: Response,
   next: NextFunction
 ) => {
@@ -16,13 +16,27 @@ export const AuthMiddleWare = (
     jwt.verify(
       token,
       String(process.env.ACCESS_TOKEN_SECRET_KEY),
-      (error, _) => {
+      (error, user) => {
         error && res.status(403).json({ message: 'Token is not valid!' })
+        req.user = user
         next()
       }
     )
   } else {
     res.status(401).json({ message: 'You are not authenticated!' })
-    next()
   }
+}
+
+export const RefreshAccessToken = (
+  req: Request | any,
+  res: Response,
+  next: NextFunction
+) => {
+  VerifyAccessToken(req, res, () => {
+    if (req.user.id === req.params.id || req.user.admin) {
+      res.status(403).json({ message: 'You are not allowed to delete orther!' })
+    } else {
+      next()
+    }
+  })
 }

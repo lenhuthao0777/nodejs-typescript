@@ -1,10 +1,12 @@
 import { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+// import jwt from 'jsonwebtoken'
 import * as argon2 from 'argon2'
 import dotenv from 'dotenv'
 
+// Component
 import userModel from '../models/user.model'
 import { UserType } from 'src/@types/user.type'
+import { token } from '../utils'
 
 dotenv.config()
 
@@ -28,7 +30,7 @@ export const Register = async (req: Request, res: Response) => {
       role_id,
       feed_back_id,
       product_id,
-      country_code,
+      country,
       phone_number,
     } = req.body
     const hash: string = await argon2.hash(password)
@@ -36,7 +38,7 @@ export const Register = async (req: Request, res: Response) => {
       user_name,
       email,
       password: hash,
-      country_code,
+      country,
       phone_number,
       role_id,
       feed_back_id,
@@ -48,6 +50,7 @@ export const Register = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'create user failed!', code: error })
   }
 }
+
 export const GetUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
@@ -84,23 +87,37 @@ export const Login = async (req: Request, res: Response) => {
     )
 
     if (user && checkPass) {
-      const accessToken = await jwt.sign(
-        body,
-        String(process.env.ACCESS_TOKEN_SECRET_KEY),
-        {
-          expiresIn: '3d',
-        }
-      )
+      // TODO REFACTOR
+
+      // const accessToken = await jwt.sign(
+      //   { id: user._id, admin: user.role_id },
+      //   String(process.env.ACCESS_TOKEN_SECRET_KEY),
+      //   {
+      //     expiresIn: '30s',
+      //   }
+      // )
 
       res.status(200).json({
         message: 'Login success!',
         data: user,
-        accessToken,
+        accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
       })
     } else if (!checkPass) {
       res.status(404).json({ message: 'Wrong password!' })
     }
   } catch (error) {
     res.status(500).json({ message: 'Login failed!' + '  ' + error.message })
+  }
+}
+
+export const DeleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+
+    await userModel.deleteOne({ id })
+
+    res.status(200).json({ message: 'Delete succes!' })
+  } catch (error) {
+    res.status(500).json({ message: 'Delete failed!' + '  ' + error.message })
   }
 }
