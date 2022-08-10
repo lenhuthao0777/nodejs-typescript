@@ -27,7 +27,7 @@ export const VerifyAccessToken = (
   }
 }
 
-export const RefreshAccessToken = (
+export const CheckAuth = (
   req: Request | any,
   res: Response,
   next: NextFunction

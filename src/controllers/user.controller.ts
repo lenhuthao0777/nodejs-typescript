@@ -99,8 +99,10 @@ export const Login = async (req: Request, res: Response) => {
 
       res.status(200).json({
         message: 'Login success!',
-        data: user,
-        accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
+        data: {
+          user,
+          accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
+        },
       })
     } else if (!checkPass) {
       res.status(404).json({ message: 'Wrong password!' })

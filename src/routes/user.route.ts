@@ -1,7 +1,4 @@
-import {
-  VerifyAccessToken,
-  RefreshAccessToken,
-} from '../middlewares/auth.middleware'
+import { VerifyAccessToken, CheckAuth } from '../middlewares/auth.middleware'
 import { Router } from 'express'
 import {
   GetAllUser,
@@ -22,7 +19,7 @@ router.get('/user/:id', VerifyAccessToken, GetUser)
 
 router.post('/login', Login)
 
-router.delete('/user/delete/:id', RefreshAccessToken, DeleteUser)
+router.delete('/user/delete/:id', CheckAuth, DeleteUser)
 
 router.get('/', Test)
 
