@@ -1,4 +1,7 @@
-import { AuthMiddleWare } from '../middlewares/auth.middleware'
+import {
+  VerifyAccessToken,
+  RefreshAccessToken,
+} from '../middlewares/auth.middleware'
 import { Router } from 'express'
 import {
   GetAllUser,
@@ -6,17 +9,20 @@ import {
   GetUser,
   Test,
   Login,
+  DeleteUser,
 } from '../controllers/user.controller'
 
 const router = Router()
 
-router.get('/user', AuthMiddleWare, GetAllUser)
+router.get('/user', VerifyAccessToken, GetAllUser)
 
 router.post('/register', Register)
 
-router.get('/user/:id', AuthMiddleWare, GetUser)
+router.get('/user/:id', VerifyAccessToken, GetUser)
 
 router.post('/login', Login)
+
+router.delete('/user/delete/:id', RefreshAccessToken, DeleteUser)
 
 router.get('/', Test)
 

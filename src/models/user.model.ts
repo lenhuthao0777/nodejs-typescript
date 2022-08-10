@@ -26,29 +26,27 @@ const userSchema = new mongoose.Schema<UserType>(
       minlength: 6,
     },
 
-    country_code: {
+    country: {
       type: String,
       required: true,
       minlength: 4,
-      maxlength: 10,
     },
 
     phone_number: {
       type: String,
       unique: true,
-      default: null,
     },
 
     feed_back_id: {
-      type: String,
+      type: [],
+      unique: false,
       required: true,
-      default: '',
     },
 
     product_id: {
-      type: String,
+      type: [],
+      unique: false,
       required: true,
-      default: '',
     },
 
     role_id: {
