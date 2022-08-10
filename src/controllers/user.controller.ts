@@ -101,7 +101,7 @@ export const Login = async (req: Request, res: Response) => {
         message: 'Login success!',
         data: {
           user,
-          accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
+          accessToken: token({ id: user._id, admin: user.role }, '30d'),
         },
       })
     } else if (!checkPass) {
