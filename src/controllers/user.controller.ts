@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import * as argon2 from 'argon2'
 import dotenv from 'dotenv'
+
 import userModel from '../models/user.model'
 import { UserType } from 'src/@types/user.type'
 
@@ -20,8 +21,16 @@ export const GetAllUser = async (_: Request, res: Response) => {
 
 export const Register = async (req: Request, res: Response) => {
   try {
-    const { user_name, email, password, role, country_code, phone_number } =
-      req.body
+    const {
+      user_name,
+      email,
+      password,
+      role_id,
+      feed_back_id,
+      product_id,
+      country_code,
+      phone_number,
+    } = req.body
     const hash: string = await argon2.hash(password)
     const newUser = await new userModel({
       user_name,
@@ -29,7 +38,9 @@ export const Register = async (req: Request, res: Response) => {
       password: hash,
       country_code,
       phone_number,
-      role,
+      role_id,
+      feed_back_id,
+      product_id,
     })
     const user = await newUser.save()
     res.status(200).json({ data: user })
@@ -77,7 +88,7 @@ export const Login = async (req: Request, res: Response) => {
         body,
         String(process.env.ACCESS_TOKEN_SECRET_KEY),
         {
-          expiresIn: '30s',
+          expiresIn: '3d',
         }
       )
 
