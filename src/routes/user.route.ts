@@ -7,7 +7,7 @@ import {
   Test,
   Login,
   DeleteUser,
-  RefreshToken,
+  // RefreshToken,
 } from '../controllers/user.controller'
 
 const router = Router()
