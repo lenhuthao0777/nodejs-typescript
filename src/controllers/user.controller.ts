@@ -138,21 +138,33 @@ export const DeleteUser = async (req: Request, res: Response) => {
   }
 }
 
-export const RefreshToken = async (req: Request, res: Response) => {
+export const RefreshToken = async (req: Request | any, res: Response) => {
   try {
     const { refreshToken } = req.body
-    const tokens: TokenType | null = await tokenModel.findOne({
-      token: refreshToken,
-    })
-    const checkToken = jwt.verify(refreshToken, tokens?.token as string)
+
+    // const tokens: TokenType | null = await tokenModel.findOne({
+    //   token: refreshToken,
+    // })
+
     !refreshToken && res.status(401).json({ message: 'RefreshToken is valid!' })
 
-    !checkToken &&
-      res.status(401).json({ message: 'You are not authenticated!' })
+    jwt.verify(
+      refreshToken,
+      String(process.env.ACCESS_TOKEN_SECRET_KEY),
+      (error: any, user: any) => {
+        if (error) res.status(403)
+        const newAccessToken = token({ id: user.id, admin: user.admin }, '30d')
+        res.status(200).json({ accessToken: newAccessToken })
+      }
+    )
 
-    if (refreshToken && checkToken) {
-      res.status(200).json({ message: 'Refresh token success!' })
-    }
+    // !checkToken &&
+    //   res.status(401).json({ message: 'You are not authenticated!' })
+
+    // if (refreshToken && checkToken) {
+    //   res.status(200).json({ message: 'Refresh token success!' })
+    // }
+    // res.json({ refreshToken })
   } catch (error) {
     res
       .status(500)

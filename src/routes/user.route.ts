@@ -22,7 +22,7 @@ router.post('/login', Login)
 
 router.delete('/user/delete/:id', CheckAuth, DeleteUser)
 
-router.post('/refresh_token', VerifyAccessToken, RefreshToken)
+router.post('/refresh_token', RefreshToken)
 
 router.get('/', Test)
 
