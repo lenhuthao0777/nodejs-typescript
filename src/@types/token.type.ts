@@ -1,5 +1,3 @@
 export type TokenType = {
-  token: {
-    type: String
-  }
+  token: string
 }

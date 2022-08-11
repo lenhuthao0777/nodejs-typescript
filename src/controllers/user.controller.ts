@@ -1,12 +1,14 @@
 import { Request, Response } from 'express'
-// import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import * as argon2 from 'argon2'
 import dotenv from 'dotenv'
 
 // Component
 import userModel from '../models/user.model'
+import tokenModel from '../models/token.model'
 import { UserType } from 'src/@types/user.type'
-import { token } from '../utils'
+import { TokenType } from 'src/@types/token.type'
+import { token, refreshToken } from '../utils'
 
 dotenv.config()
 
@@ -97,11 +99,23 @@ export const Login = async (req: Request, res: Response) => {
       //   }
       // )
 
+      const rfToken: string = refreshToken({
+        id: user._id,
+        admin: user.role_id,
+      })
+
+      const newToken = await new tokenModel<TokenType>({
+        token: rfToken,
+      })
+
+      await newToken.save()
+
       res.status(200).json({
         message: 'Login success!',
         data: {
           user,
           accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
+          refreshToken: rfToken,
         },
       })
     } else if (!checkPass) {
@@ -121,5 +135,39 @@ export const DeleteUser = async (req: Request, res: Response) => {
     res.status(200).json({ message: 'Delete succes!' })
   } catch (error) {
     res.status(500).json({ message: 'Delete failed!' + '  ' + error.message })
+  }
+}
+
+export const RefreshToken = async (req: Request | any, res: Response) => {
+  try {
+    const { refreshToken } = req.body
+
+    // const tokens: TokenType | null = await tokenModel.findOne({
+    //   token: refreshToken,
+    // })
+
+    !refreshToken && res.status(401).json({ message: 'RefreshToken is valid!' })
+
+    jwt.verify(
+      refreshToken,
+      String(process.env.ACCESS_TOKEN_SECRET_KEY),
+      (error: any, user: any) => {
+        if (error) res.status(403)
+        const newAccessToken = token({ id: user.id, admin: user.admin }, '30d')
+        res.status(200).json({ accessToken: newAccessToken })
+      }
+    )
+
+    // !checkToken &&
+    //   res.status(401).json({ message: 'You are not authenticated!' })
+
+    // if (refreshToken && checkToken) {
+    //   res.status(200).json({ message: 'Refresh token success!' })
+    // }
+    // res.json({ refreshToken })
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Refresh token failed!' + '  ' + error.message })
   }
 }
