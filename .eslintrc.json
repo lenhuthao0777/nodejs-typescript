@@ -28,6 +28,7 @@
     "import/order": "off",
     "import/no-useless-path-segments": "off",
     "import/extensions": "off",
+    "import/prefer-default-export": "off",
     "dot-notation": "off",
     "sort-imports": [
       "off",
