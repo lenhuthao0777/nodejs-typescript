@@ -7,6 +7,7 @@ import {
   Test,
   Login,
   DeleteUser,
+  RefreshToken,
 } from '../controllers/user.controller'
 
 const router = Router()
@@ -20,6 +21,8 @@ router.get('/user/:id', VerifyAccessToken, GetUser)
 router.post('/login', Login)
 
 router.delete('/user/delete/:id', CheckAuth, DeleteUser)
+
+router.post('/refresh_token', VerifyAccessToken, RefreshToken)
 
 router.get('/', Test)
 
