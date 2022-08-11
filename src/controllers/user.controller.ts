@@ -5,9 +5,9 @@ import dotenv from 'dotenv'
 
 // Component
 import userModel from '../models/user.model'
-import tokenModel from '../models/token.model'
+// import tokenModel from '../models/token.model'
 import { UserType } from 'src/@types/user.type'
-import { TokenType } from 'src/@types/token.type'
+// import { TokenType } from 'src/@types/token.type'
 import { token, refreshToken } from '../utils'
 
 dotenv.config()
@@ -104,11 +104,13 @@ export const Login = async (req: Request, res: Response) => {
         admin: user.role_id,
       })
 
-      const newToken = await new tokenModel<TokenType>({
-        token: rfToken,
-      })
+      //TODO
 
-      await newToken.save()
+      // const newToken = await new tokenModel<TokenType>({
+      //   token: rfToken,
+      // })
+
+      // await newToken.save()
 
       res.status(200).json({
         message: 'Login success!',
