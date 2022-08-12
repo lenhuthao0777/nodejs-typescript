@@ -65,7 +65,6 @@ export const CreateProduct = async (req: Request, res: Response) => {
 export const UploadFile = async (req: Request, res: Response) => {
   try {
     const file: FileType | undefined = req.file
-    const file_name: string | undefined = file?.filename.split('uploads/')[0]
     const createFile = await drive.files.create({
       requestBody: {
         name: file?.filename,
@@ -73,61 +72,22 @@ export const UploadFile = async (req: Request, res: Response) => {
       },
       media: {
         mimeType: file?.mimetype,
-        body: fs.createReadStream(
-          path.join(__dirname, `../../uploads/${file_name as string}`)
-        ),
+        body: fs.createReadStream(path.join(file?.path as string)),
       },
     })
-
     const { data } = createFile
 
     const publicFile = await SetPublicFile(data.id as string)
-
+    res.setHeader('Content-Type', 'application/json')
     res.status(200).json({
       message: 'Upload file success!',
       file: data,
       file_url: publicFile.data,
-      abc: file,
-      abcs: `../../${file_name as string}`,
     })
-    // res.json({ file, file_name })
   } catch (error) {
-    res.status(500).json({ message: 'Upload file failed!', code: error })
+    res.status(500).json({ message: 'Upload file faild!', code: error })
   }
 }
-
-// export const UploadFile = async (req: Request, res: Response) => {
-//   try {
-//     const file = req.file
-//     const createFile = await drive.files.create({
-//       requestBody: {
-//         name: 'cat-ne-hihi.jpeg',
-//         mimeType: 'image/jpeg',
-//       },
-//       media: {
-//         mimeType: 'image/jpeg',
-//         body: fs.createReadStream(
-//           path.join(__dirname, '../../cat-ne-hihi.jpeg')
-//         ),
-//       },
-//     })
-
-//     const { data } = createFile
-
-//     const publicFile = await SetPublicFile(data.id as string)
-
-//     res.status(200).json({
-//       message: 'Upload file success!',
-//       file: data,
-//       file_url: publicFile.data,
-//     })
-//     res.json({
-//       body: req.file,
-//     })
-//   } catch (error) {
-//     res.status(500).json({ message: 'Upload file failed!', code: error })
-//   }
-// }
 
 export const DeleteFile = async (req: Request, res: Response) => {
   try {
