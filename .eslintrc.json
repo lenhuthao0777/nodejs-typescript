@@ -30,6 +30,7 @@
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "dot-notation": "off",
+    "operator-linebreak": "off",
     "sort-imports": [
       "off",
       {

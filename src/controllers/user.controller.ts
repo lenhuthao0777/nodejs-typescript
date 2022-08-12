@@ -5,10 +5,12 @@ import dotenv from 'dotenv'
 
 // Component
 import userModel from '../models/user.model'
+import roleModel from '../models/role.model'
 // import tokenModel from '../models/token.model'
 import { UserType } from 'src/@types/user.type'
 // import { TokenType } from 'src/@types/token.type'
 import { token, refreshToken } from '../utils'
+import { RoleType } from 'src/@types/role.type'
 
 dotenv.config()
 
@@ -88,6 +90,10 @@ export const Login = async (req: Request, res: Response) => {
       body.password
     )
 
+    const role: RoleType | null = await roleModel.findById({
+      _id: user?.role_id,
+    })
+
     if (user && checkPass) {
       // TODO REFACTOR
 
@@ -116,6 +122,10 @@ export const Login = async (req: Request, res: Response) => {
         message: 'Login success!',
         data: {
           user,
+          role: {
+            role_name: role?.role_name,
+            role_number: role?.role_number,
+          },
           accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
           refreshToken: rfToken,
         },
