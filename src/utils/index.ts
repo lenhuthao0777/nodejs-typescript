@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import multer from 'multer'
-// import fs from 'fs'
-// import path from 'path'
 
 dotenv.config()
 

@@ -11,4 +11,5 @@ export type ProductType = {
   price: string
   discount: string
   status: string
+  images?: []
 }
