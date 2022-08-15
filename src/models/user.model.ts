@@ -40,13 +40,15 @@ const userSchema = new mongoose.Schema<UserType>(
     feed_back_id: {
       type: [],
       unique: false,
-      required: true,
+      required: false,
+      default: [],
     },
 
     product_id: {
       type: [],
       unique: false,
       required: true,
+      default: [],
     },
 
     role_id: {
