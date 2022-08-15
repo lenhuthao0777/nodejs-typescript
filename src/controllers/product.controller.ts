@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { ProductType } from 'src/@types/product.type'
 import productModel from '../models/product.model'
-import fileModel from '../models/image.model'
+import fileModel from '../models/file.model'
 import { FileType, Thumbnail } from 'src/@types/file.type'
 
 dotenv.config()
