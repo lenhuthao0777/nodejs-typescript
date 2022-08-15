@@ -109,8 +109,9 @@ export const DeleteFile = async (req: Request, res: Response) => {
     await drive.files.delete({
       fileId: id,
     })
+    await fileModel.deleteOne({ id })
 
-    res.status(200).json({ message: 'Delete file success!' })
+    res.status(200).json({ message: 'Delete file success!', id })
   } catch (error) {
     res.status(500).json({ message: 'Delete file failed!', code: error })
   }
