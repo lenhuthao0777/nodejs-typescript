@@ -4,6 +4,7 @@ import Routes from './routes/index'
 import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import bodyParser from 'body-parser'
 
 // custom components
 import CorsMiddleWare from './middlewares/cors.middleware'
@@ -24,7 +25,7 @@ const main = () => {
 
   app.use(CorsMiddleWare)
 
-  app.use(express.json())
+  app.use(bodyParser.json())
 
   app.use(helmet())
 

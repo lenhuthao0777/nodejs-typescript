@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import multer from 'multer'
 
 dotenv.config()
 
@@ -22,3 +23,15 @@ export const refreshToken = (data: any) => {
   )
   return refreshToken
 }
+
+export const storage = multer.diskStorage({
+  destination: (_, file, cb) => {
+    cb(null, 'src/uploads')
+    return file
+  },
+  filename: (_, file, cb) => {
+    cb(null, Date.now() + '--' + file.originalname)
+  },
+})
+
+export const Upload = multer({ storage })

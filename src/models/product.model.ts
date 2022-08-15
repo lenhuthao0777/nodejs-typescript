@@ -64,6 +64,10 @@ const productSchema = new mongoose.Schema<ProductType>(
       type: String,
       required: true,
     },
+    images: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 )

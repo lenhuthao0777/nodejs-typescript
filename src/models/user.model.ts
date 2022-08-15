@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema<UserType>(
 
     role_id: {
       type: String,
-      required: true,
+      default: '62f3223a0213723595f3af8f',
     },
   },
   { timestamps: true }
