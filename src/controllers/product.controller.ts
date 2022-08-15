@@ -5,7 +5,8 @@ import fs from 'fs'
 import path from 'path'
 import { ProductType } from 'src/@types/product.type'
 import productModel from '../models/product.model'
-import { FileType } from 'src/@types/file.type'
+import fileModel from '../models/image.model'
+import { FileType, Thumbnail } from 'src/@types/file.type'
 
 dotenv.config()
 const CLIENT_ID = process.env.CLIENT_ID
@@ -78,11 +79,23 @@ export const UploadFile = async (req: Request, res: Response) => {
     const { data } = createFile
 
     const publicFile = await SetPublicFile(data.id as string)
+
+    const newImage = await new fileModel<Thumbnail>({
+      file_id: data?.id as string,
+      file_url: publicFile.data?.webViewLink,
+      file_url_dowload: publicFile.data?.webContentLink,
+    })
+
+    await newImage.save()
+
+    await fs.unlink(path.join(path.join(file?.path as string)), (err) => {
+      if (err) throw err
+    })
+
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({
       message: 'Upload file success!',
-      file: data,
-      file_url: publicFile.data,
+      file: { ...data, ...publicFile.data },
     })
   } catch (error) {
     res.status(500).json({ message: 'Upload file faild!', code: error })

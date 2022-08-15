@@ -8,3 +8,9 @@ export type FileType = {
   path: string
   size: number
 }
+
+export type Thumbnail = {
+  file_id: string
+  file_url: string
+  file_url_dowload: string
+}
