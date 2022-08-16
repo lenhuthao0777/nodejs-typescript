@@ -81,7 +81,7 @@ export const Login = async (req: Request, res: Response) => {
   try {
     const body: UserType = req.body
 
-    const user: UserType | null = await userModel.findOne({
+    const user = await userModel.findOne<UserType>({
       user_name: body.user_name,
     })
 
@@ -90,7 +90,7 @@ export const Login = async (req: Request, res: Response) => {
       body.password
     )
 
-    const role: RoleType | null = await roleModel.findById({
+    const role = await roleModel.findById<RoleType>({
       _id: user?.role_id,
     })
 
@@ -121,11 +121,11 @@ export const Login = async (req: Request, res: Response) => {
       res.status(200).json({
         message: 'Login success!',
         data: {
-          user,
-          role: {
-            role_name: role?.role_name,
-            role_number: role?.role_number,
-          },
+          phone_number: user.phone_number,
+          country: user.country,
+          email: user.email,
+          role_name: role?.role_name,
+          role_number: role?.role_number,
           accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
           refreshToken: rfToken,
         },
