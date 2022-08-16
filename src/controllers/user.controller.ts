@@ -21,7 +21,7 @@ export const GetAllUser = async (_: Request, res: Response) => {
       data: user,
     })
   } catch (error) {
-    res.status(500).json({ message: 'get user failed!', code: error })
+    res.status(500).json({ message: 'get user failure!', code: error })
   }
 }
 
@@ -51,7 +51,7 @@ export const Register = async (req: Request, res: Response) => {
     const user = await newUser.save()
     res.status(200).json({ data: user })
   } catch (error) {
-    res.status(500).json({ message: 'create user failed!', code: error })
+    res.status(500).json({ message: 'create user failure!', code: error })
   }
 }
 
@@ -61,7 +61,9 @@ export const GetUser = async (req: Request, res: Response) => {
     const user = await userModel.findById(id)
     res.status(200).json({ data: user })
   } catch (error) {
-    res.status(500).json({ message: 'get user failed!' + '  ' + error.message })
+    res
+      .status(500)
+      .json({ message: 'get user failure!' + '  ' + error.message })
   }
 }
 
@@ -134,7 +136,7 @@ export const Login = async (req: Request, res: Response) => {
       res.status(404).json({ message: 'Wrong password!' })
     }
   } catch (error) {
-    res.status(500).json({ message: 'Login failed!' + '  ' + error.message })
+    res.status(500).json({ message: 'Login failure!' + '  ' + error.message })
   }
 }
 
@@ -146,7 +148,7 @@ export const DeleteUser = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Delete succes!' })
   } catch (error) {
-    res.status(500).json({ message: 'Delete failed!' + '  ' + error.message })
+    res.status(500).json({ message: 'Delete failure!' + '  ' + error.message })
   }
 }
 
@@ -180,6 +182,6 @@ export const RefreshToken = async (req: Request | any, res: Response) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Refresh token failed!' + '  ' + error.message })
+      .json({ message: 'Refresh token failure!' + '  ' + error.message })
   }
 }

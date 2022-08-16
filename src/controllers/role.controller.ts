@@ -15,6 +15,6 @@ export const CreateRole = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Create role success!', data: role })
   } catch (error) {
-    res.status(500).json({ message: 'Create role falsed! ' + error })
+    res.status(500).json({ message: 'Create role failure! ' + error })
   }
 }
