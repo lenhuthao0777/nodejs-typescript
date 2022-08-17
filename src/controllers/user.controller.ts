@@ -92,8 +92,8 @@ export const Login = async (req: Request, res: Response) => {
       body.password
     )
 
-    const role = await roleModel.findById<RoleType>({
-      _id: user?.role_id,
+    const role = await roleModel.findOne<RoleType>({
+      role_id: 'f6e722bf-4136-4f5c-a718-a7ac73397737',
     })
 
     if (user && checkPass) {
@@ -108,7 +108,7 @@ export const Login = async (req: Request, res: Response) => {
       // )
 
       const rfToken: string = refreshToken({
-        id: user._id,
+        id: user.user_id,
         admin: user.role_id,
       })
 
@@ -128,7 +128,7 @@ export const Login = async (req: Request, res: Response) => {
           email: user.email,
           role_name: role?.role_name,
           role_number: role?.role_number,
-          accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
+          accessToken: token({ id: user.user_id, admin: user.role_id }, '30d'),
           refreshToken: rfToken,
         },
       })

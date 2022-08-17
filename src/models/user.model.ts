@@ -1,9 +1,15 @@
 import { UserType } from './../@types/user.type'
 import mongoose from 'mongoose'
+import { v4 as uuidv4 } from 'uuid'
 
 // Declare the Schema of the Mongo model
 const userSchema = new mongoose.Schema<UserType>(
   {
+    user_id: {
+      type: String,
+      default: uuidv4(),
+    },
+
     user_name: {
       type: String,
       required: true,
@@ -39,15 +45,11 @@ const userSchema = new mongoose.Schema<UserType>(
 
     feed_back_id: {
       type: [],
-      unique: false,
-      required: false,
       default: [],
     },
 
     product_id: {
       type: [],
-      unique: false,
-      required: true,
       default: [],
     },
 

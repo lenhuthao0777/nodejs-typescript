@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import dotenv from 'dotenv'
 import Role from '../models/role.model'
+
 dotenv.config()
 
 export const CreateRole = async (req: Request, res: Response) => {

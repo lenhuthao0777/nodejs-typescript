@@ -4,6 +4,6 @@ import { CreateRole } from '../controllers/role.controller'
 
 const router = Router()
 
-router.post('/create_role', VerifyAccessToken, CreateRole)
+router.post('/create_role', CreateRole)
 
 export default router
