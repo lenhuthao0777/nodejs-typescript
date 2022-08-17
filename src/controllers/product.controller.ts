@@ -59,7 +59,7 @@ export const CreateProduct = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Create product success!', data })
   } catch (error) {
-    res.status(500).json({ message: 'Create product failed!', code: error })
+    res.status(500).json({ message: 'Create product failure!', code: error })
   }
 }
 
@@ -113,6 +113,6 @@ export const DeleteFile = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Delete file success!', id })
   } catch (error) {
-    res.status(500).json({ message: 'Delete file failed!', code: error })
+    res.status(500).json({ message: 'Delete file failure!', code: error })
   }
 }

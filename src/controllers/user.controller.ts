@@ -21,7 +21,7 @@ export const GetAllUser = async (_: Request, res: Response) => {
       data: user,
     })
   } catch (error) {
-    res.status(500).json({ message: 'get user failed!', code: error })
+    res.status(500).json({ message: 'get user failure!', code: error })
   }
 }
 
@@ -51,7 +51,7 @@ export const Register = async (req: Request, res: Response) => {
     const user = await newUser.save()
     res.status(200).json({ data: user })
   } catch (error) {
-    res.status(500).json({ message: 'create user failed!', code: error })
+    res.status(500).json({ message: 'create user failure!', code: error })
   }
 }
 
@@ -61,7 +61,9 @@ export const GetUser = async (req: Request, res: Response) => {
     const user = await userModel.findById(id)
     res.status(200).json({ data: user })
   } catch (error) {
-    res.status(500).json({ message: 'get user failed!' + '  ' + error.message })
+    res
+      .status(500)
+      .json({ message: 'get user failure!' + '  ' + error.message })
   }
 }
 
@@ -90,8 +92,8 @@ export const Login = async (req: Request, res: Response) => {
       body.password
     )
 
-    const role = await roleModel.findById<RoleType>({
-      _id: user?.role_id,
+    const role = await roleModel.findOne<RoleType>({
+      role_id: user?.role_id,
     })
 
     if (user && checkPass) {
@@ -106,7 +108,7 @@ export const Login = async (req: Request, res: Response) => {
       // )
 
       const rfToken: string = refreshToken({
-        id: user._id,
+        id: user.user_id,
         admin: user.role_id,
       })
 
@@ -121,20 +123,21 @@ export const Login = async (req: Request, res: Response) => {
       res.status(200).json({
         message: 'Login success!',
         data: {
-          phone_number: user.phone_number,
-          country: user.country,
-          email: user.email,
-          role_name: role?.role_name,
-          role_number: role?.role_number,
-          accessToken: token({ id: user._id, admin: user.role_id }, '30d'),
-          refreshToken: rfToken,
+          phone_number: user.phone_number || '',
+          country: user.country || '',
+          email: user.email || '',
+          role_name: role?.role_name || '',
+          role_number: role?.role_number || null,
+          accessToken:
+            token({ id: user.user_id, admin: user.role_id }, '30d') || '',
+          refreshToken: rfToken || '',
         },
       })
     } else if (!checkPass) {
       res.status(404).json({ message: 'Wrong password!' })
     }
   } catch (error) {
-    res.status(500).json({ message: 'Login failed!' + '  ' + error.message })
+    res.status(500).json({ message: 'Login failure!' + '  ' + error.message })
   }
 }
 
@@ -146,7 +149,7 @@ export const DeleteUser = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: 'Delete succes!' })
   } catch (error) {
-    res.status(500).json({ message: 'Delete failed!' + '  ' + error.message })
+    res.status(500).json({ message: 'Delete failure!' + '  ' + error.message })
   }
 }
 
@@ -180,6 +183,6 @@ export const RefreshToken = async (req: Request | any, res: Response) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Refresh token failed!' + '  ' + error.message })
+      .json({ message: 'Refresh token failure!' + '  ' + error.message })
   }
 }
