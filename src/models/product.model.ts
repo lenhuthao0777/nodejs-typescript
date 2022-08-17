@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema<ProductType>(
 
     name: {
       type: String,
-      required: true,
+      required: [true, 'Please provide a name'],
       default: '',
     },
 
@@ -48,12 +48,12 @@ const productSchema = new mongoose.Schema<ProductType>(
 
     category_id: {
       type: String,
-      required: true,
+      required: [true, 'category_id does not empty'],
     },
 
     merchant_id: {
       type: String,
-      required: true,
+      required: [true, 'merchant_id does not empty'],
     },
 
     price: {

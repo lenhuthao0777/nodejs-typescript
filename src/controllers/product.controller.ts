@@ -116,3 +116,33 @@ export const DeleteFile = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Delete file failure!', code: error })
   }
 }
+
+export const GetProduct = async (req: Request, res: Response) => {
+  try {
+    const totalItem = await productModel.find()
+
+    const data = await productModel
+      .find()
+      .skip((Number(req.query.page) - 1) * Number(req.query.page_size))
+      .limit(Number(req.query.page_size))
+
+    res.json({
+      message: 'Get product success!',
+      data,
+      current_page: Number(req.query.page),
+      limit: Number(req.query.page_size),
+      total_page: Math.ceil(totalItem.length / Number(req.query.page_size)),
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Get product failure!', code: error })
+  }
+}
+
+export const DeleteProduct = async (req: Request, res: Response) => {
+  try {
+    await productModel.deleteOne({ product_id: req.params.id })
+    res.status(200).json({ message: 'Delete succes!' })
+  } catch (error) {
+    res.status(500).json({ message: 'Delete product failure!', code: error })
+  }
+}

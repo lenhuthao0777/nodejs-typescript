@@ -1,9 +1,8 @@
 import { VerifyAccessToken, CheckAuth } from '../middlewares/auth.middleware'
 import { Router } from 'express'
 import {
-  GetAllUser,
-  Register,
   GetUser,
+  Register,
   Test,
   Login,
   DeleteUser,
@@ -12,11 +11,9 @@ import {
 
 const router = Router()
 
-router.get('/user', VerifyAccessToken, GetAllUser)
+router.get('/user', VerifyAccessToken, GetUser)
 
 router.post('/register', Register)
-
-router.get('/user/:id', VerifyAccessToken, GetUser)
 
 router.post('/login', Login)
 

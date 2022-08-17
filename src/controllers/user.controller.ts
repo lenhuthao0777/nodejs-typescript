@@ -14,12 +14,20 @@ import { RoleType } from 'src/@types/role.type'
 
 dotenv.config()
 
-export const GetAllUser = async (_: Request, res: Response) => {
+export const GetUser = async (req: Request, res: Response) => {
   try {
-    const user = await userModel.find()
-    res.status(200).json({
-      data: user,
-    })
+    const { id } = req.body
+    if (id) {
+      const user = await userModel.findOne({ user_id: id })
+      res.status(200).json({
+        data: user,
+      })
+    } else {
+      const user = await userModel.find()
+      res.status(200).json({
+        data: user,
+      })
+    }
   } catch (error) {
     res.status(500).json({ message: 'get user failure!', code: error })
   }
@@ -55,18 +63,6 @@ export const Register = async (req: Request, res: Response) => {
   }
 }
 
-export const GetUser = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params
-    const user = await userModel.findById(id)
-    res.status(200).json({ data: user })
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'get user failure!' + '  ' + error.message })
-  }
-}
-
 export const Test = (_: Request, res: Response) => {
   try {
     res.send({
@@ -89,7 +85,7 @@ export const Login = async (req: Request, res: Response) => {
 
     const checkPass: boolean = await argon2.verify(
       user?.password as string,
-      body.password
+      body?.password
     )
 
     const role = await roleModel.findOne<RoleType>({
@@ -123,13 +119,13 @@ export const Login = async (req: Request, res: Response) => {
       res.status(200).json({
         message: 'Login success!',
         data: {
-          phone_number: user.phone_number || '',
-          country: user.country || '',
-          email: user.email || '',
+          phone_number: user?.phone_number || '',
+          country: user?.country || '',
+          email: user?.email || '',
           role_name: role?.role_name || '',
           role_number: role?.role_number || null,
           accessToken:
-            token({ id: user.user_id, admin: user.role_id }, '30d') || '',
+            token({ id: user?.user_id, admin: user?.role_id }, '30d') || '',
           refreshToken: rfToken || '',
         },
       })
@@ -168,7 +164,10 @@ export const RefreshToken = async (req: Request | any, res: Response) => {
       String(process.env.ACCESS_TOKEN_SECRET_KEY),
       (error: any, user: any) => {
         if (error) res.status(403)
-        const newAccessToken = token({ id: user.id, admin: user.admin }, '30d')
+        const newAccessToken = token(
+          { id: user?.id, admin: user?.admin },
+          '30d'
+        )
         res.status(200).json({ accessToken: newAccessToken })
       }
     )

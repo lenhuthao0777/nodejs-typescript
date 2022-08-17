@@ -15,7 +15,7 @@
     "semi": "off",
     "comma-dangle": "off",
     "camelcase": "off",
-    "no-console": "error",
+    "no-console": "warn",
     "prefer-template": "off",
     "no-useless-concat": "off",
     "no-unused-expressions": "off",
@@ -31,6 +31,8 @@
     "import/prefer-default-export": "off",
     "dot-notation": "off",
     "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "radix": "off",
     "sort-imports": [
       "off",
       {
