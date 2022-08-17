@@ -93,7 +93,7 @@ export const Login = async (req: Request, res: Response) => {
     )
 
     const role = await roleModel.findOne<RoleType>({
-      role_id: 'f6e722bf-4136-4f5c-a718-a7ac73397737',
+      role_id: user?.role_id,
     })
 
     if (user && checkPass) {
@@ -123,13 +123,14 @@ export const Login = async (req: Request, res: Response) => {
       res.status(200).json({
         message: 'Login success!',
         data: {
-          phone_number: user.phone_number,
-          country: user.country,
-          email: user.email,
-          role_name: role?.role_name,
-          role_number: role?.role_number,
-          accessToken: token({ id: user.user_id, admin: user.role_id }, '30d'),
-          refreshToken: rfToken,
+          phone_number: user.phone_number || '',
+          country: user.country || '',
+          email: user.email || '',
+          role_name: role?.role_name || '',
+          role_number: role?.role_number || null,
+          accessToken:
+            token({ id: user.user_id, admin: user.role_id }, '30d') || '',
+          refreshToken: rfToken || '',
         },
       })
     } else if (!checkPass) {

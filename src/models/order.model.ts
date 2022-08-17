@@ -6,7 +6,6 @@ const orderSchema = new mongoose.Schema<OrderType>(
   {
     order_id: {
       type: String,
-      // unique: false,
     },
     user_id: {
       type: String,

@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema<UserType>(
       minlength: 6,
       maxlength: 25,
       unique: true,
+      lowercase: true,
     },
 
     password: {
@@ -41,21 +42,12 @@ const userSchema = new mongoose.Schema<UserType>(
     phone_number: {
       type: String,
       unique: true,
-    },
-
-    feed_back_id: {
-      type: [],
-      default: [],
-    },
-
-    product_id: {
-      type: [],
-      default: [],
+      maxlength: 10,
     },
 
     role_id: {
       type: String,
-      default: '62f3223a0213723595f3af8f',
+      default: '',
     },
   },
   { timestamps: true }

@@ -1,4 +1,5 @@
 export type ProductType = {
+  product_id?: string
   name: string
   title: string
   thumbnail: string

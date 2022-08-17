@@ -1,9 +1,15 @@
 import { ProductType } from './../@types/product.type'
 import mongoose from 'mongoose'
+import { v4 as uuidv4 } from 'uuid'
 
 // Declare the Schema of the Mongo model
 const productSchema = new mongoose.Schema<ProductType>(
   {
+    product_id: {
+      type: String,
+      default: uuidv4(),
+    },
+
     name: {
       type: String,
       required: true,
@@ -64,8 +70,9 @@ const productSchema = new mongoose.Schema<ProductType>(
       type: String,
       required: true,
     },
+
     images: {
-      type: Array,
+      type: [String],
       default: [],
     },
   },

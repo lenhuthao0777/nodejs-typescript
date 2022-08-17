@@ -6,9 +6,7 @@ export type UserType = {
   country: string
   phone_number: string
   role_id: string
-  feed_back_id: string[]
   email: string
-  product_id: string[]
   createdAt: string
   updatedAt: string
 }
