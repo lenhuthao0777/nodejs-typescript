@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import dotenv from 'dotenv'
-import Role from '../models/role.model'
+import Role from './role.model'
 
 dotenv.config()
 

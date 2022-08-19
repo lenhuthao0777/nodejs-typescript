@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import UserRoute from './user.route'
-import RoleRoute from './role.route'
-import ProductRoute from './product.route'
-import OrderRoute from './order.route'
+import UserRoute from '../components/user/user.route'
+import RoleRoute from '../components/role/role.route'
+import ProductRoute from '../components/product/product.route'
+import OrderRoute from '../components/order/order.route'
+import FileRoute from '../components/file/file.route'
 
 const router = Router()
 
@@ -14,4 +15,5 @@ router.use('/api/v1', ProductRoute)
 
 router.use('/api/v1', OrderRoute)
 
+router.use('/api/v1', FileRoute)
 export default router

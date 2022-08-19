@@ -1,4 +1,4 @@
-import { Thumbnail } from '../@types/file.type'
+import { Thumbnail } from '../../@types/file.type'
 import mongoose from 'mongoose'
 
 // Declare the Schema of the Mongo model

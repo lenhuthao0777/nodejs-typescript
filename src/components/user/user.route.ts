@@ -1,4 +1,4 @@
-import { VerifyAccessToken, CheckAuth } from '../middlewares/auth.middleware'
+import { VerifyAccessToken, CheckAuth } from '../../middlewares/auth.middleware'
 import { Router } from 'express'
 import {
   GetUser,
@@ -7,11 +7,14 @@ import {
   Login,
   DeleteUser,
   // RefreshToken,
-} from '../controllers/user.controller'
+  GetUserById,
+} from './user.controller'
 
 const router = Router()
 
 router.get('/user', VerifyAccessToken, GetUser)
+
+router.get('/user/:id', VerifyAccessToken, GetUserById)
 
 router.post('/register', Register)
 

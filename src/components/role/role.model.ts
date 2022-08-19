@@ -1,4 +1,4 @@
-import { RoleType } from './../@types/role.type'
+import { RoleType } from '../../@types/role.type'
 import mongoose from 'mongoose'
 import { v4 as uuidv4 } from 'uuid'
 // Declare the Schema of the Mongo model

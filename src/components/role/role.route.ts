@@ -1,6 +1,6 @@
-import { VerifyAccessToken } from '../middlewares/auth.middleware'
+import { VerifyAccessToken } from '../../middlewares/auth.middleware'
 import { Router } from 'express'
-import { CreateRole } from '../controllers/role.controller'
+import { CreateRole } from './role.controller'
 
 const router = Router()
 

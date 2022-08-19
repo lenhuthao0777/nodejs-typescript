@@ -4,32 +4,36 @@ import * as argon2 from 'argon2'
 import dotenv from 'dotenv'
 
 // Component
-import userModel from '../models/user.model'
-import roleModel from '../models/role.model'
+import userModel from './user.model'
+import roleModel from '../role/role.model'
 // import tokenModel from '../models/token.model'
 import { UserType } from 'src/@types/user.type'
 // import { TokenType } from 'src/@types/token.type'
-import { token, refreshToken } from '../utils'
+import { token, refreshToken } from '../../utils'
 import { RoleType } from 'src/@types/role.type'
 
 dotenv.config()
 
-export const GetUser = async (req: Request, res: Response) => {
+export const GetUser = async (_: Request, res: Response) => {
   try {
-    const { id } = req.body
-    if (id) {
-      const user = await userModel.findOne({ user_id: id })
-      res.status(200).json({
-        data: user,
-      })
-    } else {
-      const user = await userModel.find()
-      res.status(200).json({
-        data: user,
-      })
-    }
+    const user = await userModel.find()
+    res.status(200).json({
+      data: user,
+    })
   } catch (error) {
-    res.status(500).json({ message: 'get user failure!', code: error })
+    res.status(500).json({ message: 'Get user failure!', code: error })
+  }
+}
+
+export const GetUserById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const user = await userModel.findOne({ user_id: id })
+    res.status(200).json({
+      data: user,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Get user failure!', code: error })
   }
 }
 

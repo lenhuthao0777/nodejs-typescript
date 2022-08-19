@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { OrderType } from 'src/@types/order.type'
-import orderModel from '../models/order.model'
+import orderModel from './order.model'
 
 export const CreateOrder = async (req: Request, res: Response) => {
   try {

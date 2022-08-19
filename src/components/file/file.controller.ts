@@ -3,12 +3,11 @@ import dotenv from 'dotenv'
 import { google } from 'googleapis'
 import fs from 'fs'
 import path from 'path'
-import { ProductType } from 'src/@types/product.type'
-import productModel from '../models/product.model'
-import fileModel from '../models/file.model'
+import fileModel from './file.model'
 import { FileType, Thumbnail } from 'src/@types/file.type'
 
 dotenv.config()
+
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const REDIRECT_URI = process.env.REDIRECT_URI
@@ -44,22 +43,6 @@ export const SetPublicFile = async (fileId: string) => {
     return getUrl
   } catch (error) {
     return error
-  }
-}
-
-export const CreateProduct = async (req: Request, res: Response) => {
-  try {
-    const body: ProductType = req.body
-
-    const data = await new productModel({
-      ...body,
-    })
-
-    await data.save()
-
-    res.status(200).json({ message: 'Create product success!', data })
-  } catch (error) {
-    res.status(500).json({ message: 'Create product failure!', code: error })
   }
 }
 
@@ -114,35 +97,5 @@ export const DeleteFile = async (req: Request, res: Response) => {
     res.status(200).json({ message: 'Delete file success!', id })
   } catch (error) {
     res.status(500).json({ message: 'Delete file failure!', code: error })
-  }
-}
-
-export const GetProduct = async (req: Request, res: Response) => {
-  try {
-    const totalItem = await productModel.find()
-
-    const data = await productModel
-      .find()
-      .skip((Number(req.query.page) - 1) * Number(req.query.page_size))
-      .limit(Number(req.query.page_size))
-
-    res.json({
-      message: 'Get product success!',
-      data,
-      current_page: Number(req.query.page),
-      limit: Number(req.query.page_size),
-      total_page: Math.ceil(totalItem.length / Number(req.query.page_size)),
-    })
-  } catch (error) {
-    res.status(500).json({ message: 'Get product failure!', code: error })
-  }
-}
-
-export const DeleteProduct = async (req: Request, res: Response) => {
-  try {
-    await productModel.deleteOne({ product_id: req.params.id })
-    res.status(200).json({ message: 'Delete succes!' })
-  } catch (error) {
-    res.status(500).json({ message: 'Delete product failure!', code: error })
   }
 }
